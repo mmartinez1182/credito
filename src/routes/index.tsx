@@ -176,7 +176,7 @@ function Hero() {
 function SectionTitle({ eyebrow, title, tone }: { eyebrow: string; title: React.ReactNode; tone?: "primary" | "accent" }) {
   return (
     <div className="max-w-3xl">
-      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+      <Eyebrow tone={tone ?? "primary"}>{eyebrow}</Eyebrow>
       <h2 className="mt-4 text-4xl leading-[1.05] font-extrabold text-secondary md:text-6xl">{title}</h2>
     </div>
   );
