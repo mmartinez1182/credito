@@ -176,7 +176,7 @@ function Hero() {
 function SectionTitle({ eyebrow, title, tone }: { eyebrow: string; title: React.ReactNode; tone?: "primary" | "accent" }) {
   return (
     <div className="max-w-3xl">
-      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+      <Eyebrow tone={tone ?? "primary"}>{eyebrow}</Eyebrow>
       <h2 className="mt-4 text-4xl leading-[1.05] font-extrabold text-secondary md:text-6xl">{title}</h2>
     </div>
   );
@@ -257,7 +257,7 @@ function Quiz() {
       started.current = true;
       track("credit_quiz_start");
     }
-    const q = quizQuestions[step];
+    const q = quizQuestions[step]!;
     const next = { ...answers, [q.id]: idx };
     setAnswers(next);
     setStep(step + 1);
@@ -283,9 +283,9 @@ function Quiz() {
             {!done ? (
               <div className="mt-8">
                 <p className="text-sm opacity-60">Pregunta {step + 1} de {quizQuestions.length}</p>
-                <h3 className="mt-2 text-3xl font-bold md:text-4xl">{quizQuestions[step].q}</h3>
+                <h3 className="mt-2 text-3xl font-bold md:text-4xl">{quizQuestions[step]!.q}</h3>
                 <div className="mt-8 grid gap-3">
-                  {quizQuestions[step].options.map((o, i) => (
+                  {quizQuestions[step]!.options.map((o, i) => (
                     <button
                       key={o}
                       onClick={() => answer(i)}
@@ -335,7 +335,7 @@ function Inventory() {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { track("credit_inventory_view"); io.disconnect(); }
+      if (e?.isIntersecting) { track("credit_inventory_view"); io.disconnect(); }
     }, { threshold: 0.3 });
     io.observe(el);
     return () => io.disconnect();
@@ -510,7 +510,7 @@ function Faq() {
           className="md:col-span-8"
           onValueChange={(v) => v && track("credit_faq_open", { question: v })}
         >
-          {faqs.map(([q, a]) => (
+          {faqs.map(([q = "", a]) => (
             <AccordionItem key={q} value={q} className="border-border">
               <AccordionTrigger className="py-6 text-left font-display text-lg font-bold text-secondary hover:no-underline md:text-xl">
                 {q}
